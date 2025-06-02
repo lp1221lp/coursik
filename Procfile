@@ -1,0 +1,1 @@
+web: build/install/cursova2/bin/cursova2 -P:ktor.deployment.port=$PORT
