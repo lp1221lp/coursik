@@ -1,0 +1,428 @@
+/* css/styles.css - Apple Dark Theme, Draggable Instruments */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Apple Dark Mode Palette */
+    --primary-bg-color: #1d1d1f;       /* Глибокий темний фон */
+    --secondary-bg-color: #2c2c2e;     /* Фон для елементів, трохи світліше */
+    --tertiary-bg-color: #3a3a3c;      /* Ще світліший для акцентів або фону інпутів */
+    --surface-color: #2c2c2e;          /* Фон для карток/інструментів */
+
+    --primary-text-color: #f5f5f7;     /* Майже білий */
+    --secondary-text-color: #9a9a9f;   /* Світло-сірий */
+    --tertiary-text-color: #6e6e73;    /* Темніший сірий */
+
+    --accent-color-blue: #0A84FF;
+    --accent-color-blue-hover: #0070D9;
+    --accent-color-green: #30D158;
+    --accent-color-green-hover: #28B94F;
+    --accent-color-red: #FF453A;
+
+    --border-color: #424245;           /* Темно-сіра межа */
+    --border-color-light: #5a5a5e;     /* Трохи світліша межа для контрасту */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    --shadow-light: 0px 2px 6px rgba(0,0,0,0.25);
+    --shadow-medium: 0px 4px 12px rgba(0,0,0,0.35), 0px 1px 3px rgba(0,0,0,0.25);
+    --shadow-strong: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-stack);
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+    background-color: rgba(29, 29, 31, 0.85); /* Злегка прозорий фон */
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: inset 0px -1px 0px var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+button {
+    background-color: var(--accent-color-blue);
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+button:hover {
+    background-color: var(--accent-color-blue-hover);
+}
+
+main {
+    padding: 25px 30px;
+    flex-grow: 1;
+}
+
+/* --- Панель приладів --- */
+#dashboard-panel {
+    position: relative;
+    background-color: var(--primary-bg-color); /* Темний фон для панелі */
+    padding: 20px;
+    min-height: 600px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+}
+
+/* --- Стиль окремого інструмента --- */
+.instrument {
+    position: absolute;
+    background-color: rgba(44, 44, 46, 0.85); /* Напівпрозорий фон картки */
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(110, 110, 115, 0.3); /* Тонка межа */
+    box-shadow: var(--shadow-light);
+    border-radius: var(--radius-lg); /* Більш заокруглені кути */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+    min-height: 180px;
+    cursor: grab;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.instrument:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+.instrument:active {
+    cursor: grabbing;
+    z-index: 1000;
+    transform: scale(1.02);
+}
+
+.instrument-header {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    width: 100%;
+    text-align: center;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    user-select: none;
+}
+
+.instrument-content-wrapper {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.instrument-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 6px;
+}
+.instrument-controls button {
+    font-size: 13px;
+    padding: 5px;
+    background-color: rgba(110, 110, 115, 0.3);
+    color: var(--secondary-text-color);
+    border-radius: var(--radius-sm);
+    border: none;
+    line-height: 1;
+}
+.instrument-controls button:hover {
+    background-color: rgba(134, 134, 139, 0.4);
+    color: var(--primary-text-color);
+}
+
+/* --- Модальне вікно --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5); /* Темніший фон для модалки */
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    padding: 30px 0;
+}
+
+.modal-content {
+    background-color: var(--secondary-bg-color); /* Темний фон модалки */
+    margin: 0 auto;
+    padding: 25px 30px;
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 550px;
+    box-shadow: var(--shadow-strong);
+    animation: modalOpen 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+}
+
+@keyframes modalOpen {
+    from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: normal;
+    color: var(--secondary-text-color);
+    background-color: var(--tertiary-bg-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.close-button:hover {
+    background-color: var(--border-color); /* Трохи світліший фон при наведенні */
+    color: var(--primary-text-color);
+}
+
+#modalTitle {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    text-align: center;
+    color: var(--primary-text-color);
+}
+
+#instrumentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#instrumentForm label {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+    margin-bottom: -5px;
+}
+
+#instrumentForm input[type="text"],
+#instrumentForm input[type="number"],
+#instrumentForm input[type="color"],
+#instrumentForm select {
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    font-size: 15px;
+    background-color: var(--tertiary-bg-color); /* Темний фон інпутів */
+    color: var(--primary-text-color); /* Білий текст в інпутах */
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+#instrumentForm input[type="color"] { /* Спеціально для color picker, щоб фон був видимим */
+    padding: 4px; /* Менший паддінг, щоб колір було видно */
+}
+
+
+#instrumentForm input:focus,
+#instrumentForm select:focus {
+    outline: none;
+    border-color: var(--accent-color-blue);
+    background-color: var(--secondary-bg-color); /* Трохи світліший фон при фокусі */
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+}
+
+#instrumentForm h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary-text-color);
+    margin: 15px 0 8px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.type-specific-fields {
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(255,255,255,0.03); /* Дуже легкий прозорий білий фон */
+    border: 1px solid var(--border-color-light); /* Трохи світліша межа для секцій */
+}
+
+.common-fields,
+#gaugeFields,
+#digitalDisplayFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+    align-items: flex-start;
+}
+.common-fields label,
+#gaugeFields label,
+#digitalDisplayFields label {
+    grid-column: 1 / -1;
+    margin-bottom: -8px;
+}
+.common-fields #instrumentName, .common-fields #instrumentType,
+.common-fields #instrumentDataSource, .common-fields #instrumentUpdateInterval {
+    grid-column: 1 / -1;
+}
+
+#warningRangesContainer {
+    grid-column: 1 / -1;
+}
+.warning-range-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 50px;
+    align-items: center;
+    gap: 5px 8px;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.04);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+}
+.warning-range-item:last-child {
+    margin-bottom: 0;
+}
+.warning-range-item label {
+    grid-column: auto;
+    margin-bottom: 0;
+    font-size: 13px;
+}
+.warning-range-item input[type="color"]{
+    padding: 4px;
+    min-width: 40px;
+}
+
+#addWarningRangeBtn {
+    background-color: var(--tertiary-bg-color);
+    color: var(--primary-text-color);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+}
+#addWarningRangeBtn:hover {
+    background-color: var(--border-color);
+}
+
+#instrumentForm button[type="submit"] {
+    margin-top: 15px;
+    background-color: var(--accent-color-green); /* Зелена кнопка для збереження */
+    border-color: var(--accent-color-green);
+    width: 100%;
+}
+#instrumentForm button[type="submit"]:hover {
+    background-color: var(--accent-color-green-hover);
+    border-color: var(--accent-color-green-hover);
+}
+
+/* --- Специфічні стилі для відображення інструментів --- */
+.gauge-canvas {
+    max-width: 100%;
+    height: auto;
+}
+.digital-display-content {
+    font-family: 'Segment7', var(--font-stack);
+    font-weight: normal;
+    text-shadow: 0 0 8px currentColor, 0 0 15px currentColor; /* Більш виражене світіння */
+}
+.warning-panel-content {
+    font-weight: 500;
+    font-size: 1em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+/* Скролбари (WebKit) - Apple dark style */
+::-webkit-scrollbar {
+    width: 14px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--tertiary-text-color); /* Колір повзунка */
+    border-radius: 7px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-text-color); /* Світліший при наведенні */
+}
+
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 20px 25px;
+    }
+    .common-fields,
+    #gaugeFields,
+    #digitalDisplayFields {
+        grid-template-columns: 1fr;
+    }
+    .warning-range-item {
+        grid-template-columns: auto 1fr;
+    }
+    .warning-range-item label {
+        text-align: left;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+    header h1 { font-size: 20px; }
+    button { padding: 8px 14px; font-size: 14px; }
+    main { padding: 15px 20px; }
+    #dashboard-panel { padding: 15px; min-height: 400px; }
+    .instrument { width: 180px; min-height: 150px; padding: 10px;}
+}

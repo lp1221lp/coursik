@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <h1>Car Dashboard</h1>
+    <button id="addInstrumentBtn">Add Instrument</button>
+</header>
+
+<main>
+    <div id="dashboard-panel">
+        <!-- Instruments will be rendered here -->
+    </div>
+</main>
+
+<!-- Add/Edit Instrument Modal -->
+<div id="instrumentModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">×</span>
+        <h2 id="modalTitle">Add Instrument</h2>
+        <form id="instrumentForm">
+            <input type="hidden" id="instrumentId">
+
+            <label for="instrumentName">Name:</label>
+            <input type="text" id="instrumentName" required>
+
+            <label for="instrumentType">Type:</label>
+            <select id="instrumentType" required>
+                <option value="GAUGE">Gauge</option>
+                <option value="DIGITAL_DISPLAY">Digital Display</option>
+                <option value="WARNING_PANEL">Warning Panel</option>
+            </select>
+
+            <div class="common-fields">
+                <label for="instrumentX">Position X:</label>
+                <input type="number" id="instrumentX" value="10">
+                <label for="instrumentY">Position Y:</label>
+                <input type="number" id="instrumentY" value="10">
+                <label for="instrumentWidth">Width:</label>
+                <input type="number" id="instrumentWidth" value="150">
+                <label for="instrumentHeight">Height:</label>
+                <input type="number" id="instrumentHeight" value="150">
+                <label for="instrumentUnit">Unit:</label>
+                <input type="text" id="instrumentUnit" value="%">
+                <label for="instrumentDataSource">Data Source (e.g., sim:random(0,100)):</label>
+                <input type="text" id="instrumentDataSource">
+                <label for="instrumentUpdateInterval">Update Interval (ms):</label>
+                <input type="number" id="instrumentUpdateInterval" value="2000">
+            </div>
+
+            <div id="gaugeFields" class="type-specific-fields">
+                <h3>Gauge Settings</h3>
+                <label for="gaugeMinValue">Min Value:</label>
+                <input type="number" id="gaugeMinValue" value="0">
+                <label for="gaugeMaxValue">Max Value:</label>
+                <input type="number" id="gaugeMaxValue" value="100">
+                <label for="gaugeDialColor">Dial Color:</label>
+                <input type="color" id="gaugeDialColor" value="#f0f0f0">
+                <label for="gaugeNeedleColor">Needle Color:</label>
+                <input type="color" id="gaugeNeedleColor" value="#cc0000">
+            </div>
+
+            <div id="digitalDisplayFields" class="type-specific-fields" style="display:none;">
+                <h3>Digital Display Settings</h3>
+                <label for="digitalTextColor">Text Color:</label>
+                <input type="color" id="digitalTextColor" value="#00ff00">
+                <label for="digitalBgColor">Background Color:</label>
+                <input type="color" id="digitalBgColor" value="#000000">
+                <label for="digitalFontSize">Font Size (px):</label>
+                <input type="number" id="digitalFontSize" value="24">
+            </div>
+
+            <div id="warningPanelFields" class="type-specific-fields" style="display:none;">
+                <h3>Warning Panel Settings</h3>
+                <div id="warningRangesContainer">
+                    <!-- Warning ranges will be added here -->
+                </div>
+                <button type="button" id="addWarningRangeBtn">Add Range</button>
+            </div>
+
+            <button type="submit">Save Instrument</button>
+        </form>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/ui/gauge.js"></script>
+<script src="js/ui/digitalDisplay.js"></script>
+<script src="js/ui/warningPanel.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
