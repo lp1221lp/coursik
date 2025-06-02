@@ -3,5 +3,5 @@ ktor:
     modules:
       - com.example.Application.module
   deployment:
-    port: 8080
+    port: ${?PORT}
   development: true
